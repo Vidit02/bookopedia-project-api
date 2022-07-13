@@ -30,7 +30,7 @@ public class UserDao {
 	
 	
 	public UserBean addAuthToken(UserBean user) {
-		stmt.update("update users set authtoken = ? where email = ? and password = ?",user.getAuthtoken(),user.getEmailid(),user.getPassword());
+		stmt.update("update users set authtoken = ? where emailid = ? and password = ?",user.getAuthtoken(),user.getEmailid(),user.getPassword());
 		return user;
 	}
 }
