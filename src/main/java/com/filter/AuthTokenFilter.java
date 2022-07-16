@@ -26,13 +26,16 @@ public class AuthTokenFilter implements Filter {
 		String userid = req.getHeader("userid");
 		System.out.println("authoken filter is called");
 		System.out.println("token == >" + authtoken);
-		if(url.toString().contains("/public/")) {
-			chain.doFilter(request, response);
-		} else if(authtoken == null || userid == null) {
-			HttpServletResponse resp = ((HttpServletResponse) (response));
-			resp.setContentType("application/json");
-			resp.setStatus(401);
-			resp.getWriter().write("{'msg':'Please Login and access Service'}");
+		if (url.toString().contains("/private/")) {
+//			chain.doFilter(request, response);
+			if (authtoken == null || userid == null) {
+				HttpServletResponse resp = ((HttpServletResponse) (response));
+				resp.setContentType("application/json");
+				resp.setStatus(401);
+				resp.getWriter().write("{'msg':'Please Login and access Service'}");
+			} else {
+				chain.doFilter(request, response);
+			}
 		} else {
 			chain.doFilter(request, response);
 		}

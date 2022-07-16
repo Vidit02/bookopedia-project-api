@@ -24,18 +24,19 @@ public class UserController {
 	@Autowired
 	GenerateAuthToken authtoken;
 	
-	@PostMapping("/public/signup")
+	@PostMapping(path = "/signup")
 	public UserBean addUser(@RequestBody UserBean user) {
 		userDao.addUser(user);
+		System.out.println(user.getUsername() + " " + user.getEmailid() + " " + user.getPassword());
 		return user;
 	}
 	
-	@GetMapping("/users")
+	@GetMapping("/private/users")
 	public List<UserBean> listUser(){
 		return userDao.getAllUsers();
 	}
 	
-	@PostMapping("/public/login")
+	@PostMapping("/login")
 	public ResponseEntity<?> loginUser(@RequestBody UserBean user) {
 		UserBean newuser = userDao.authenticateUser(user);
 		if(newuser == null) {
