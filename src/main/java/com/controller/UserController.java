@@ -24,6 +24,7 @@ public class UserController {
 	@Autowired
 	GenerateAuthToken authtoken;
 	
+	//Can be used using json object only
 	@PostMapping(path = "/signup")
 	public UserBean addUser(@RequestBody UserBean user) {
 		userDao.addUser(user);
