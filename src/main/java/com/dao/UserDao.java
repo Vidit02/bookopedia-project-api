@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.bean.LoginBean;
 import com.bean.UserBean;
 
 @Repository
@@ -24,8 +25,18 @@ public class UserDao {
 		return stmt.query("select * from users", new BeanPropertyRowMapper<>(UserBean.class));
 	}
 	
-	public UserBean authenticateUser (UserBean user) {
-		return stmt.queryForObject("select * from users where emailid = ? and password = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class), new Object[] {user.getEmailid(),user.getPassword()} );
+	public UserBean authenticateUser (LoginBean user) {
+		List<UserBean> users =  stmt.query("select * from users where emailid = ? and password = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class), new Object[] {user.getEmailid(),user.getPassword()} );
+//		if(userDetail == null) {
+//			return null;
+//		} else {
+//			return userDetail;
+//		}
+		if(users.size() == 0) {
+			return null;
+		} else {
+			return users.get(0);
+		}
 	}
 	
 	
