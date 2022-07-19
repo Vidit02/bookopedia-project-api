@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bean.LoginBean;
 import com.bean.UserBean;
 import com.dao.UserDao;
+import com.service.EmailService;
 import com.service.GenerateAuthToken;
 
 @RestController
@@ -24,6 +25,9 @@ public class UserController {
 	
 	@Autowired
 	GenerateAuthToken authtoken;
+	
+	@Autowired
+	EmailService emailService;
 	
 	//Can be used using json object only
 	@PostMapping(path = "/signup")
@@ -95,10 +99,27 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/getotp")
-	public String generateNewOtp(@RequestBody LoginBean user) {
+	@PostMapping("/getotp")
+	public ResponseEntity<?> generateNewOtp(@RequestBody LoginBean user) {
 		String otp = authtoken.generateToken(6);
-		return otp;
+		Boolean isSend = emailService.sendEmailForOtp(user.getEmailid(),otp);
+//		try {
+//			isSend = emailService.sendEmailForOtp(user.getEmailid());
+////			return ResponseEntity.ok(otp);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+////			ResponseEntity<?> resp = new ResponseEntity<>("Unauthorized User",HttpStatus.UNAUTHORIZED);
+////			return resp;
+//		}
+		
+		if(isSend) {
+			return ResponseEntity.ok(otp);
+		} else {
+			ResponseEntity<?> resp = new ResponseEntity<>("Unauthorized User",HttpStatus.UNAUTHORIZED);
+			return resp;
+		}
+		
 	}
 	
 	
