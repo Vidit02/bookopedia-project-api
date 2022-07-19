@@ -95,5 +95,11 @@ public class UserController {
 		}
 	}
 	
+	@GetMapping("/getotp")
+	public String generateNewOtp(@RequestBody LoginBean user) {
+		String otp = authtoken.generateToken(6);
+		return otp;
+	}
+	
 	
 }
