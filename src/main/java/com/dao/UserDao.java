@@ -44,4 +44,13 @@ public class UserDao {
 		stmt.update("update users set authtoken = ? where emailid = ? and password = ?",user.getAuthtoken(),user.getEmailid(),user.getPassword());
 		return user;
 	}
+	
+	public Boolean searchByEmail(LoginBean user) {
+		List<UserBean> users = stmt.query("select * from users where emailid = ?" , new BeanPropertyRowMapper<UserBean>(UserBean.class),new Object[] {user.getEmailid()});
+		if(users.size() == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

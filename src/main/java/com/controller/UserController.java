@@ -76,11 +76,23 @@ public class UserController {
 				System.out.println("Authtoken not generated");
 				newuser.setAuthtoken(authtoken.generateToken(16));
 				newuser = userDao.addAuthToken(newuser);
-				System.out.println("Auth Token generated : " + newuser);
+				System.out.println("Auth Token generated : " + newuser.getAuthtoken());
 			}
 			return ResponseEntity.ok(newuser);
 		}
 		
+	}
+	
+	@PostMapping("/searchemail")
+	public ResponseEntity<?> searchEmail(@RequestBody LoginBean user) {
+		System.out.println("email " + user.getEmailid());
+		Boolean isEmail = userDao.searchByEmail(user);
+		if(isEmail) {
+			return ResponseEntity.ok(user);
+		} else {
+			ResponseEntity<?> resp = new ResponseEntity<>("User Not Found",HttpStatus.UNAUTHORIZED);
+			return resp;
+		}
 	}
 	
 	
