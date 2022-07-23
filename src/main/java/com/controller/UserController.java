@@ -42,6 +42,17 @@ public class UserController {
 		return userDao.getAllUsers();
 	}
 	
+	@PostMapping("/private/user")
+	public ResponseEntity<?> getUserByIdAuth(@RequestBody UserBean newuser) {
+		UserBean user1 = userDao.searchUserByUseridAuth(newuser);
+		if(user1 == null) {
+			ResponseEntity<?> resp = new ResponseEntity<>("Unauthorized User",HttpStatus.UNAUTHORIZED);
+			return resp;
+		} else {
+			return ResponseEntity.ok(user1);
+		}
+	}
+	
 //	@PostMapping("/login")
 //	public UserResponse<?> loginUser(@RequestBody LoginBean user) {
 //		UserBean newuser = userDao.authenticateUser(user);

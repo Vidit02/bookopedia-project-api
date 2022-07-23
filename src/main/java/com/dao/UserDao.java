@@ -53,4 +53,13 @@ public class UserDao {
 			return true;
 		}
 	}
+	
+	public UserBean searchUserByUseridAuth(UserBean user) {
+		List<UserBean> alluser = stmt.query("select * from users where userid = ? and authtoken = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class),new Object[] {user.getUserid(),user.getAuthtoken()});
+		if(alluser.size() == 0) {
+			return null;
+		} else {
+			return alluser.get(0);
+		}
+	}
 }
