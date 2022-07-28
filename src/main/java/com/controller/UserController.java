@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bean.LoginBean;
@@ -42,9 +43,9 @@ public class UserController {
 		return userDao.getAllUsers();
 	}
 	
-	@PostMapping("/private/user")
-	public ResponseEntity<?> getUserByIdAuth(@RequestBody UserBean newuser) {
-		UserBean user1 = userDao.searchUserByUseridAuth(newuser);
+	@GetMapping("/private/user")
+	public ResponseEntity<?> getUserByIdAuth(@RequestHeader("userid") int userid , @RequestHeader("authToken") String authtoken) {
+		UserBean user1 = userDao.searchUserByUseridAuth(userid,authtoken);
 		if(user1 == null) {
 			ResponseEntity<?> resp = new ResponseEntity<>("Unauthorized User",HttpStatus.UNAUTHORIZED);
 			return resp;

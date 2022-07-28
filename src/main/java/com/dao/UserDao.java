@@ -54,8 +54,8 @@ public class UserDao {
 		}
 	}
 	
-	public UserBean searchUserByUseridAuth(UserBean user) {
-		List<UserBean> alluser = stmt.query("select * from users where userid = ? and authtoken = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class),new Object[] {user.getUserid(),user.getAuthtoken()});
+	public UserBean searchUserByUseridAuth(int userid , String authtoken) {
+		List<UserBean> alluser = stmt.query("select * from users where userid = ? and authtoken = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class),new Object[] {userid,authtoken});
 		if(alluser.size() == 0) {
 			return null;
 		} else {
