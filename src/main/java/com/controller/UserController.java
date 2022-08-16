@@ -43,16 +43,6 @@ public class UserController {
 		return userDao.getAllUsers();
 	}
 	
-	@GetMapping("/private/user")
-	public ResponseEntity<?> getUserByIdAuth(@RequestHeader("userid") int userid , @RequestHeader("authToken") String authtoken) {
-		UserBean user1 = userDao.searchUserByUseridAuth(userid,authtoken);
-		if(user1 == null) {
-			ResponseEntity<?> resp = new ResponseEntity<>("Unauthorized User",HttpStatus.UNAUTHORIZED);
-			return resp;
-		} else {
-			return ResponseEntity.ok(user1);
-		}
-	}
 	
 //	@PostMapping("/login")
 //	public UserResponse<?> loginUser(@RequestBody LoginBean user) {
@@ -134,5 +124,15 @@ public class UserController {
 		
 	}
 	
+	@GetMapping("/getuserdata")
+	public ResponseEntity<?> getUserData(@RequestHeader("authtoken") String authtoken , @RequestHeader("userid") int userid){
+		UserBean user = userDao.getUserByAuthtoken(authtoken,userid);
+		if(user != null) {
+			return ResponseEntity.ok(user);
+		} else {
+			ResponseEntity<?> resp = new ResponseEntity<>("Unauthorized User",HttpStatus.UNAUTHORIZED);
+			return resp;
+		}
+	}
 	
 }

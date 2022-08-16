@@ -2,6 +2,7 @@ package com.dao;
 
 import java.util.List;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +25,7 @@ public class UserDao {
 	public List<UserBean> getAllUsers(){
 		return stmt.query("select * from users", new BeanPropertyRowMapper<>(UserBean.class));
 	}
-	
+
 	public UserBean authenticateUser (LoginBean user) {
 		List<UserBean> users =  stmt.query("select * from users where emailid = ? and password = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class), new Object[] {user.getEmailid(),user.getPassword()} );
 //		if(userDetail == null) {
@@ -54,12 +55,12 @@ public class UserDao {
 		}
 	}
 	
-	public UserBean searchUserByUseridAuth(int userid , String authtoken) {
-		List<UserBean> alluser = stmt.query("select * from users where userid = ? and authtoken = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class),new Object[] {userid,authtoken});
-		if(alluser.size() == 0) {
+	public UserBean getUserByAuthtoken(String authtoken, int userid) {
+		List<UserBean> user = stmt.query("select * from users where authtoken = ? and userid = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class), new Object[] {authtoken,userid} );
+		if(user.size() == 0) {
 			return null;
 		} else {
-			return alluser.get(0);
+			return user.get(0);
 		}
 	}
 }
