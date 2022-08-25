@@ -54,7 +54,7 @@ public class UserController {
 //			res.setMsg("Unauthorized User");
 //			return res;
 //		} else {
-//			if(newuser.getAuthtoken() == null) {
+//			if(newuser.getAuhtoken() == null) {
 //				System.out.println("Authtoken not generated");
 //				newuser.setAuthtoken(authtoken.generateToken(16));
 //				newuser = userDao.addAuthToken(newuser);
@@ -62,7 +62,7 @@ public class UserController {
 //			}
 //			res.setStatus(200);
 //			res.setData(newuser);
-//			res.setMsg("Successfully Logged in");
+//			res .setMsg("Successfully Logged in");
 //			
 //			return res;
 //		}
@@ -96,6 +96,20 @@ public class UserController {
 		if(isEmail) {
 			return ResponseEntity.ok(user);
 		} else {
+			ResponseEntity<?> resp = new ResponseEntity<>("User Not Found",HttpStatus.UNAUTHORIZED);
+			return resp;
+		}
+	}
+	
+	@PostMapping("/emailcheck")
+	public ResponseEntity<?> checkEmail(@RequestBody LoginBean user) {
+		System.out.println("email " + user.getEmailid());
+		Boolean isEmail = userDao.isEmail(user.getEmailid());
+		if(isEmail) {
+			System.out.println("This is true");
+			return ResponseEntity.ok("Ok");
+		} else {
+			System.out.println("This is false");
 			ResponseEntity<?> resp = new ResponseEntity<>("User Not Found",HttpStatus.UNAUTHORIZED);
 			return resp;
 		}

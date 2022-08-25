@@ -55,6 +55,15 @@ public class UserDao {
 		}
 	}
 	
+	public Boolean isEmail(String emailid) {
+		List<UserBean> users = stmt.query("select * from users where emailid = ?" , new BeanPropertyRowMapper<UserBean>(UserBean.class),new Object[] {emailid});
+		if(users.size() == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public UserBean getUserByAuthtoken(String authtoken, int userid) {
 		List<UserBean> user = stmt.query("select * from users where authtoken = ? and userid = ?", new BeanPropertyRowMapper<UserBean>(UserBean.class), new Object[] {authtoken,userid} );
 		if(user.size() == 0) {
