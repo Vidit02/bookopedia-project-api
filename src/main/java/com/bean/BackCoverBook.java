@@ -2,10 +2,8 @@ package com.bean;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class FilleBean {
+public class BackCoverBook {
 	
-//	private int id;
-	private MultipartFile frontcover;
 	private MultipartFile backcover;
 	private String imgid;
 	public String getImgid() {
@@ -14,17 +12,10 @@ public class FilleBean {
 	public void setImgid(String imgid) {
 		this.imgid = imgid;
 	}
-	public MultipartFile getFrontcover() {
-		return frontcover;
-	}
-	public void setFrontcover(MultipartFile frontcover) {
-		this.frontcover = frontcover;
-	}
 	public MultipartFile getBackcover() {
 		return backcover;
 	}
 	public void setBackcover(MultipartFile backcover) {
 		this.backcover = backcover;
 	}
-	
 }
