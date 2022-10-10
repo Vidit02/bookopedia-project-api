@@ -19,6 +19,18 @@ public class BookBean {
 	private Integer userid;
 	private String frontcover;
 	private String backcover;
+	public String getFrontcover() {
+		return frontcover;
+	}
+	public void setFrontcover(String frontcover) {
+		this.frontcover = frontcover;
+	}
+	public String getBackcover() {
+		return backcover;
+	}
+	public void setBackcover(String backcover) {
+		this.backcover = backcover;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -60,18 +72,6 @@ public class BookBean {
 	}
 	public void setUserid(Integer userid) {
 		this.userid = userid;
-	}
-	public String getFrontcover() {
-		return frontcover;
-	}
-	public void setFrontcover(String frontcover) {
-		this.frontcover = frontcover;
-	}
-	public String getBackcover() {
-		return backcover;
-	}
-	public void setBackcover(String backcover) {
-		this.backcover = backcover;
 	}
 	
 	
