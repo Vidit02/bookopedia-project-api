@@ -13,6 +13,14 @@ public class UserBean {
 	String password;
 	String address;
 	String authtoken;
+	Integer cartid;
+	
+	public Integer getCartid() {
+		return cartid;
+	}
+	public void setCartid(Integer cartid) {
+		this.cartid = cartid;
+	}
 	public int getUserid() {
 		return userid;
 	}

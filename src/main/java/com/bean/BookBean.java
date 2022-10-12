@@ -19,6 +19,7 @@ public class BookBean {
 	private Integer userid;
 	private String frontcover;
 	private String backcover;
+	private Integer cartid;
 	public String getFrontcover() {
 		return frontcover;
 	}
@@ -72,6 +73,12 @@ public class BookBean {
 	}
 	public void setUserid(Integer userid) {
 		this.userid = userid;
+	}
+	public Integer getCartid() {
+		return cartid;
+	}
+	public void setCartid(Integer cartid) {
+		this.cartid = cartid;
 	}
 	
 	

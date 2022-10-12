@@ -72,4 +72,9 @@ public class UserDao {
 			return user.get(0);
 		}
 	}
+	
+	public void updateUser(int userid , Integer cartid) {
+		System.out.println("method is called" + userid + cartid);
+		stmt.update("update users set cartid = ? where userid = ? ",cartid,userid);
+	}
 }
