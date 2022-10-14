@@ -1,6 +1,6 @@
 package com.controller;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +27,6 @@ import com.dao.UserDao;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/private")
 public class CartController {
 	
 	@Autowired
@@ -43,7 +42,7 @@ public class CartController {
 	private UserDao userDao;
 	
 	@PostMapping("/addBookToCart")
-	public ResponseEntity<?> addBookToCart(@RequestBody BookBean book,@RequestHeader("authToken") String authToken , @RequestHeader("userId") Integer userId) {
+	public UserResponse<?> addBookToCart(@RequestBody BookBean book,@RequestHeader("authToken") String authToken , @RequestHeader("userId") Integer userId) {
 		UserBean user = userDao.getUserByAuthtoken(authToken, userId);
 		System.out.println(book.getId()+"wejfwnoex");
 		Integer cartid = user.getCartid();
@@ -53,7 +52,12 @@ public class CartController {
 			newBook = booksdata.get(0);
 		}
 		if(newBook == null) {
-			ResponseEntity<?> resp = new ResponseEntity<>("Book not found" , HttpStatus.BAD_REQUEST);
+//			ResponseEntity<?> = new ResponseEntity<>("Book not found" , HttpStatus.BAD_REQUEST);
+//			return resp;
+			UserResponse<String> resp = new UserResponse<>();
+			resp.setData(null);
+			resp.setMsg("Book not found");
+			resp.setStatus(401);
 			return resp;
 		} else {
 			if(cartid == null) {
@@ -63,7 +67,11 @@ public class CartController {
 				cart.setUserid(userId);
 				cartRepository.save(cart);
 				userDao.updateUser(userId, cart.getCartid());
-				return ResponseEntity.ok("Book is added");
+				UserResponse<String> resp = new UserResponse<>();
+				resp.setData("Book is added");
+				resp.setMsg("Book found and added");
+				resp.setStatus(200);
+				return resp;
 			} else {
 				CartBean cart = cartRepository.getReferenceById(cartid);
 				String pro = cart.getCartitems();
@@ -75,9 +83,17 @@ public class CartController {
 					pro = pro + book.getId() + ",";
 					cart.setCartitems(pro);
 					cartRepository.save(cart);
-					return ResponseEntity.ok("Book is added");
+					UserResponse<String> resp = new UserResponse<>();
+					resp.setData("Book is added");
+					resp.setMsg("Book found and added");
+					resp.setStatus(200);
+					return resp;
 				} else {
-					return ResponseEntity.ok("Book already added...");
+					UserResponse<String> resp = new UserResponse<>();
+					resp.setData("Book is already added");
+					resp.setMsg("Book found and already added");
+					resp.setStatus(300);
+					return resp;
 				}
 			}
 		}
