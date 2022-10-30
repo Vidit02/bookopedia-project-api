@@ -71,7 +71,7 @@ public class BookController {
 			FrontCoverDb frontcover = frontCoverRepository.findById(newBook.getFrontcover()).get();
 			BackCoverDb backcover = backCoverRepository.findById(newBook.getBackcover()).get();
 			newBook.setFrontcover(Base64.getEncoder().encodeToString(frontcover.getData()));
-			newBook.setFrontcover(Base64.getEncoder().encodeToString(backcover.getData()));
+			newBook.setBackcover(Base64.getEncoder().encodeToString(backcover.getData()));
 			resp.setData(book.get());
 			resp.setMsg("Book found");
 			resp.setStatus(200);
