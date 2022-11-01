@@ -118,7 +118,8 @@ public class CartController {
 	}
 	
 	@GetMapping("/numOfPro")
-	public UserResponse<?> getNumberofPro(@RequestHeader("authToken") String authToken, @RequestHeader("userId") int userId) {
+	public UserResponse<?> getNumberofPro(@RequestHeader("authToken") String authToken, @RequestHeader("userId") String userid) {
+		int userId = Integer.parseInt(userid);
 		UserBean user = userDao.getUserByAuthtoken(authToken, userId);	
 		if(user == null) {
 			UserResponse<String> resp = new UserResponse<>();
@@ -189,6 +190,42 @@ public class CartController {
 				resp.setStatus(200);
 				resp.setMsg("All Products found");
 				resp.setData(books);
+				return resp;
+			}
+		}
+	}
+
+	@GetMapping("/getTotalPrice")
+	public UserResponse<?> getTotalCartPrice(@RequestHeader("authToken") String authtoken , @RequestHeader("userId") String userid){
+		int newUser = Integer.parseInt(userid);
+		UserBean user = userDao.getUserByAuthtoken(authtoken, newUser);
+		if(user == null) {
+			UserResponse<String> resp = new UserResponse<>();
+			resp.setStatus(-1);
+			resp.setMsg("User not authenticated");
+			resp.setData("User not authenticated");
+			return resp;
+		} else {
+			Integer cartId = user.getCartid();
+			if(cartId == null) {
+				UserResponse<String> resp = new UserResponse<>();
+				resp.setStatus(-1);
+				resp.setMsg("Cart not found");
+				resp.setData("Cart id is wrong");
+				return resp;
+			} else {
+				Integer total = 0;
+				CartBean cart1 = cartRepository.getReferenceById(cartId);
+				String bookStr = cart1.getCartitems();
+				List<String> cartBooks = new ArrayList<>(Arrays.asList(bookStr.split(",")));
+				for(String b : cartBooks) {
+					BookBean newBook =  bookRepository.getReferenceById(Integer.parseInt(b));
+					total = total + newBook.getPrice();
+				}
+				UserResponse<Integer> resp = new UserResponse<>();
+				resp.setStatus(200);
+				resp.setMsg("Total Price");
+				resp.setData(total);
 				return resp;
 			}
 		}

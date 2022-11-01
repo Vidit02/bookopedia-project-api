@@ -77,4 +77,8 @@ public class UserDao {
 		System.out.println("method is called" + userid + cartid);
 		stmt.update("update users set cartid = ? where userid = ? ",cartid,userid);
 	}
+	
+	public void updateCartid(int userid) {
+		stmt.update("update users set cartid = null where userid = ?",userid);
+	}
 }
